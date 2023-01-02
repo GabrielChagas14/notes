@@ -2,6 +2,7 @@
 import { computed, reactive } from "vue";
 import { useStoreNotes } from "../../stores/storeNotes";
 import ModalDeleteNote from "./ModalDeleteNote.vue";
+import { useDateFormat } from "@vueuse/core"
 /* 
     props
 */
@@ -16,7 +17,15 @@ const props = defineProps({
   store
 */
 const storeNotes = useStoreNotes();
+
 /* 
+  date formated
+*/
+
+const dateFormatted = computed(()=>{
+  let date = new Date(parseInt(props.note.date))
+  return useDateFormat(date,  'MM-DD-YYYY | HH:mm').value
+})
 
 /* 
   characters length
@@ -37,8 +46,9 @@ const modals = reactive({
   <div class="card mb-4">
     <div class="card-content">
       <div class="content">{{ note.content }}</div>
-      <div class="has-text-right has-text-grey-light mt-2">
-        <small>{{ charactersLength }} </small>
+      <div class="columns is-mobile has-text-grey-light mt-2">
+          <small class="column">{{ dateFormatted }}</small>
+        <small class="column has-text-right">{{ charactersLength }} </small>
       </div>
     </div>
     <footer class="card-footer">

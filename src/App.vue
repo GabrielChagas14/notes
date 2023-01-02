@@ -2,7 +2,17 @@
 /* 
   imports
 */
+import { onMounted } from "vue";
+import { useStoreAuth } from "./stores/storeAuth.js"
 import NavBar from "./components/layout/NavBar.vue";
+
+/* 
+  load notes
+*/
+const storeAuth = useStoreAuth()
+onMounted(()=>{
+  storeAuth.init()
+})
 </script>
 <template>
   <nav-bar></nav-bar>

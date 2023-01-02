@@ -6,7 +6,7 @@ import { ref } from "vue";
 import Note from "../components/Notes/Note.vue";
 import AddEditNote from "../components/Notes/AddEditNote.vue";
 import { useStoreNotes } from "../stores/storeNotes";
-import { useWatchCharacters } from "../use/useWatchCharacters.js"
+import { useWatchCharacters } from "../use/useWatchCharacters.js";
 /* 
   store
 */
@@ -24,7 +24,8 @@ const addNote = () => {
 /* 
   watch
 */
-useWatchCharacters(newNote)
+useWatchCharacters(newNote);
+
 </script>
 <template>
   <div class="notes">
@@ -43,6 +44,19 @@ useWatchCharacters(newNote)
         </button>
       </template>
     </add-edit-note>
-    <Note v-for="note in storeNotes.notes" :key="note.id" :note="note" />
+    <progress
+      v-if="!storeNotes.notesLoaded"
+      class="progress is-large is-success"
+      max="100"
+    />
+    <template v-else>
+      <Note v-for="note in storeNotes.notes" :key="note.id" :note="note" />
+      <div
+        v-if="!storeNotes.notes.length"
+        class="is-size-4 has-text-centered has-text-grey-light is-family-monospace py-6"
+      >
+        No notes here yet...
+      </div>
+    </template>
   </div>
 </template>
